@@ -15,9 +15,10 @@ concurrency:
   group: ${{ github.head_ref }}-build
   cancel-in-progress: true
 
+# SPM needs the checkout folder to match the package name, not the repo name (iterable-flutter).
 defaults:
   run:
-    working-directory: example/
+    working-directory: iterable_flutter/example/
 
 jobs:
   build_ios:
@@ -25,6 +26,8 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: iterable_flutter
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -45,6 +48,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: iterable_flutter
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'

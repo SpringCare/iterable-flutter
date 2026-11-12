@@ -24,12 +24,14 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 // AGP 9 applies Kotlin itself ("built-in Kotlin"). Applying the Kotlin Gradle
-// Plugin on top of that double-applies Kotlin and fails the build, so only apply
-// it on AGP 8 and earlier where it is still required. This keeps the plugin
-// building for consumers on either side of the AGP 9 boundary.
+// Plugin on top of that double-applies Kotlin and fails the build, so apply it
+// only where built-in Kotlin is off: on AGP 8 and earlier, or on AGP 9 when the
+// consuming app sets `android.builtInKotlin=false` (the Flutter 3.50 template
+// default, because many plugins still apply the Kotlin Gradle Plugin themselves).
 // See https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin
 def agpMajor = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')[0] as int
-if (agpMajor < 9) {
+def builtInKotlinOff = project.findProperty('android.builtInKotlin')?.toString()?.trim()?.equalsIgnoreCase('false')
+if (agpMajor < 9 || builtInKotlinOff) {
     apply plugin: 'kotlin-android'
 
     // Only needed on the legacy path. AGP 9's built-in Kotlin derives the Kotlin
