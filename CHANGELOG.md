@@ -1,4 +1,5 @@
-## Unreleased
+## 0.8.2
+- build(android): also apply `kotlin-android` on AGP 9 when the consuming app sets `android.builtInKotlin=false`. Flutter 3.50 keeps that opt-out in its template because many plugins still apply the Kotlin Gradle Plugin themselves. With the opt-out set, 0.8.1 applied no Kotlin plugin at all, so nothing compiled the plugin's Kotlin sources and the app build failed with `cannot find symbol IterableFlutterPlugin`. AGP 8 and AGP 9 with built-in Kotlin on are unchanged.
 - docs: repoint the remaining upstream metadata at this fork — `pubspec.yaml` `homepage` (was `https://lahaus.com`) and the podspec `s.author` (was `La Haus <email@example.com>`, a placeholder address). Metadata only; no version bump, since consumers pin by git ref. The `com.lahaus.iterable_flutter` Android namespace/group and the `package:` in `pubspec.yaml` are deliberately unchanged — renaming those would break plugin registration for every consumer.
 
 ## 0.8.1
